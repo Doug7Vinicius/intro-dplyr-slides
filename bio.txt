@@ -1,0 +1,117 @@
+# Bibliography
+
+
+```{r, results='asis'}
+print(bibs[key = c("guided", "Hesterberg2011", "HastieTrevor",
+                  "Breiman2001", "Friedman1991")], 
+      .opts = list(check.entries = FALSE, 
+                   style = "html", 
+                   bib.style = "authoryear"))
+```
+
+
+
+
+
+# remark.js vs xaringan
+
+Some differences between using remark.js (left) and using **xaringan** (right):
+
+.pull-left[
+1. Start with a boilerplate HTML file;
+
+1. Plain Markdown;
+
+1. Write JavaScript to autoplay slides;
+
+1. Manually configure MathJax;
+
+1. Highlight code with `*`;
+
+1. Edit Markdown source and refresh browser to see updated slides;
+]
+
+.pull-right[
+1. Start with an R Markdown document;
+
+1. R Markdown (can embed R/other code chunks);
+
+1. Provide an option `autoplay`;
+
+1. MathJax just works;<sup>*</sup>
+
+1. Highlight code with `{{}}`;
+
+1. The RStudio addin "Infinite Moon Reader" automatically refreshes slides on changes;
+]
+
+.footnote[[*] Not really. See next page.]
+
+---
+
+# Por que deveria ser isso?
+
+R segue um conjunto de convenções que tornam um layout de dados tabulares muito mais fácil de trabalhar do que outros. Seus dados serão mais fáceis de trabalhar no R se seguirem três regras:
+
+.pull-left[
+
+1. Cada variável no conjunto de dados é colocada em sua própria coluna
+
+1. Cada observação é colocada em sua própria linha
+
+1. Cada valor é colocado em sua própria célula *
+]
+
+.pull-left[]
+
+Os dados que satisfazem essas regras são conhecidos como dados organizados . Observe que table1são dados organizados.
+
+```{r, echo = FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("imagens/tidy-1.png")
+```
+
+.footnote[[*] .]
+---
+
+# Introdução
+
+A visualização é uma ferramenta importante para a geração de *insights*, mas é raro você obter os dados exatamente da forma correta de que precisa. Frequentemente, você precisará criar algumas novas variáveis ou resumos, ou talvez apenas queira renomear as variáveis ou reordenar as observações para tornar os dados um pouco mais fáceis de trabalhar. Você aprenderá como fazer tudo isso (e muito mais!) Neste capítulo, que ensinará como transformar seus dados usando o pacote dplyr e um novo conjunto de dados em voos partindo de Nova York em 2013.
+
+---
+
+# R Plots
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+```
+
+---
+
+# Tables
+
+If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
+
+```{r}
+knitr::kable(head(iris), format = 'html')
+```
+
+---
+
+# Operadores Lógicos
+
+Vários argumentos para filter()são combinados com "e”: toda expressão deve ser verdadeira para que uma linha seja incluída na saída. Para outros tipos de combinações, você precisará usar operadores booleanos: & é "e", | é "ou" e ! é "não". A Figura mostra o conjunto completo de operações booleanas.
+
+```{r, echo = FALSE, out.width="80%", fig.align='center', fig.cap='Conjunto completo de operações booleanas. x é o círculo do lado esquerdo, y é o círculo do lado direito e a região sombreada mostra quais partes cada operador seleciona.'}
+knitr::include_graphics("imagens/transform-logical.png")
+```
+
+
+---
+
+# Dados Organizados
+
+>“Famílias felizes são todas iguais; toda família infeliz é infeliz à sua maneira. ” – Leo Tolstoi
+
+>“Os conjuntos de dados organizados são todos iguais, mas todos os conjuntos de dados confusos são confusos à sua maneira.” – Hadley Wickham
+
