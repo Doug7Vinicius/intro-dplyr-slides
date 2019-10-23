@@ -115,3 +115,6 @@ knitr::include_graphics("imagens/transform-logical.png")
 
 >“Os conjuntos de dados organizados são todos iguais, mas todos os conjuntos de dados confusos são confusos à sua maneira.” – Hadley Wickham
 
+
+install.packages("Rcpp", dependencies=TRUE, INSTALL_opts = c('--no-lock'))
+

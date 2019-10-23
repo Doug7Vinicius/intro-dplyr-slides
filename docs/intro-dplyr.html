@@ -1,32 +1,26 @@
----
-title: "Introdução ao Pacote dplyr"
-subtitle: "R Básico + dplyr"
-author: 
-  - "Me Elisangela, Douglas Vinícius, Jossivana Macedo"
-institute: "Universidade Federal de Rondônia"
-date: "22 de Outubro de 2019"
-output:
-  xaringan::moon_reader:
-    css: [default, maynooth, maynooth-fonts]
-    lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
-editor_options: 
-  chunk_output_type: console
----
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(message = FALSE, 
-                      warning = FALSE, 
-                      echo = FALSE, 
-                      fig.align = 'center')
-library(RefManageR)
-library(tidyverse)
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Introdução ao Pacote dplyr</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Me Elisangela, Douglas Vinícius, Jossivana Macedo" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/maynooth.css" rel="stylesheet" />
+    <link href="libs/remark-css/maynooth-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
 
-bibs <- ReadBib("bibliography.bib", check = FALSE)
-```
+# Introdução ao Pacote dplyr
+## R Básico + dplyr
+### Me Elisangela, Douglas Vinícius, Jossivana Macedo
+### Universidade Federal de Rondônia
+### 22 de Outubro de 2019
+
+---
+
+
 
 
 # Partes
@@ -35,7 +29,7 @@ bibs <- ReadBib("bibliography.bib", check = FALSE)
     - Universo `tidyverse`.
   2. Tibbles x Data Frames.
     - O que é Dados Organizados?
-    - Operador *pipe* `%>%`.
+    - Operador *pipe* `%&gt;%`.
     - Breve introdução ao Tidyr.
       - gather(); spread(); separate(); unite().
   3. Manipulando Data Frames com `dplyr`.
@@ -46,7 +40,7 @@ bibs <- ReadBib("bibliography.bib", check = FALSE)
 class: inverse, middle, center
 
 
-# R & RStudio
+# R &amp; RStudio
 
 ---
 # O ambiente R
@@ -88,9 +82,7 @@ Excelente para manipulação de dados, cálculo e exibição gráfica. Segue alg
 
 Após instalado, o R tem uma interface assim, com apenas o console para digitar comandos.
 
-```{r figure3, echo=FALSE, fig.align='center', out.width="80%"}
-knitr::include_graphics("imagens/r-project.png")
-```
+&lt;img src="imagens/r-project.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 Experimente um comando: 2+2, cujo output é 4.
 
@@ -100,18 +92,14 @@ Experimente um comando: 2+2, cujo output é 4.
 
 E a interface do RStudio é dividida, inicialmente, em 3 partes.
 
-```{r figure4, echo=FALSE, fig.align='center', out.width="80%"}
-knitr::include_graphics("imagens/rstudio-console.png")
-```
+&lt;img src="imagens/rstudio-console.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ---
 # RStudio
 
 A forma mais eficiente e prática de usar o R ou o RStudio é através de um script. No RStudio, vá em *File → New File → R Script*. A interface agora fica dividida em 4 partes.
 
-```{r figure5, echo=FALSE, fig.align='center', out.width="70%"}
-knitr::include_graphics("imagens/rstudio-editor.png")
-```
+&lt;img src="imagens/rstudio-editor.png" width="70%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Classes de Objetos no R
@@ -175,86 +163,91 @@ class: inverse, middle, center
 
 # `tidyverse`
 
-```{r, echo = FALSE, out.width="25%", fig.align='center'}
-knitr::include_graphics("imagens/tidyverse.png")
-```
+&lt;img src="imagens/tidyverse.png" width="25%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Universo *tidyverse*
 
-> O tidyverse é uma coleção de pacotes R projetados para ciência de dados. Todos os pacotes compartilham uma filosofia de design, gramática e estruturas de dados subjacentes.
+&gt; O tidyverse é uma coleção de pacotes R projetados para ciência de dados. Todos os pacotes compartilham uma filosofia de design, gramática e estruturas de dados subjacentes.
 
-```{r, echo = FALSE, out.width="85%", fig.align='center'}
-knitr::include_graphics("imagens/tidyverse_1.png")
-```
+&lt;img src="imagens/tidyverse_1.png" width="85%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 class: inverse, middle, center
 
-# ` %>% `
+# ` %&gt;% `
 
-```{r figure9, echo=FALSE, fig.align='center', out.width='25%'}
-knitr::include_graphics("imagens/magritt.png")
-```
+&lt;img src="imagens/magritt.png" width="25%" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Operador *pipe* `%>%`
+# Operador *pipe* `%&gt;%`
 
 O pacote `magrittr` tem dois objetivos: diminuir o tempo de desenvolvimento e melhorar a legibilidade e a manutenção do código. Para começar a utilizar o *pipe*, instale e carregue o pacote `magrittr`.
 
-```{r eval=FALSE, echo=TRUE}
+
+```r
 install.packages("magrittr")
 library(magrittr)
 ```
 
-O operador do **pipeline** `%>%` é muito útil para reunir várias funções em uma sequência de operações.
+O operador do **pipeline** `%&gt;%` é muito útil para reunir várias funções em uma sequência de operações.
 
 Tubulação básica:
 
-  - x `%>%` *f* é equivalente a *f(x)*;
-  - x `%>%` *f(y)* é equivalente a *f(x, y)*;
-  - x `%>%` *f* `%>%` *g* `%>%` *h* é equivalente a *h(g(f(x)))*.
+  - x `%&gt;%` *f* é equivalente a *f(x)*;
+  - x `%&gt;%` *f(y)* é equivalente a *f(x, y)*;
+  - x `%&gt;%` *f* `%&gt;%` *g* `%&gt;%` *h* é equivalente a *h(g(f(x)))*.
 
 ---
 
-# ` %>% `
+# ` %&gt;% `
 
 Observe abaixo que toda vez que desejamos aplicar mais de uma função, a sequência é ocultada em uma sequência de chamadas de funções aninhadas difíceis de ler, ou seja:
 
-> third(second(first(x)))
+&gt; third(second(first(x)))
 
-Esse aninhamento não é uma maneira natural de pensar em uma sequência de operações. O `%>%` permite que você encadeie operações da esquerda para a direita, ou seja:
+Esse aninhamento não é uma maneira natural de pensar em uma sequência de operações. O `%&gt;%` permite que você encadeie operações da esquerda para a direita, ou seja:
 
-> first(x) %>% second() %>% third()
+&gt; first(x) %&gt;% second() %&gt;% third()
 
 Por exemplo:
 
 ---
 
-# ` %>% `
+# ` %&gt;% `
 
-````{r echo=TRUE}
-x <- c(0.109, 0.359, 0.63, 0.996, 0.515, 0.142, 0.017, 0.829, 0.907)
+
+```r
+x &lt;- c(0.109, 0.359, 0.63, 0.996, 0.515, 0.142, 0.017, 0.829, 0.907)
 
 round(exp(diff(log(x))), 1)
 ```
 
+```
+## [1]  3.3  1.8  1.6  0.5  0.3  0.1 48.8  1.1
+```
+
 Com ajuda do *pipe*:
 
-```{r echo=TRUE}
-x %>% 
-  log() %>% 
-  diff() %>% 
-  exp() %>% 
+
+```r
+x %&gt;% 
+  log() %&gt;% 
+  diff() %&gt;% 
+  exp() %&gt;% 
   round(1)
+```
+
+```
+## [1]  3.3  1.8  1.6  0.5  0.3  0.1 48.8  1.1
 ```
 
 ---
 
-# ` %>% `
+# ` %&gt;% `
 
 Em resumo, aqui estão quatro razões pelas quais você deve usar tubos ou pipe no R:
 
@@ -268,30 +261,44 @@ Em resumo, aqui estão quatro razões pelas quais você deve usar tubos ou pipe 
 
 ---
 
-# ` %T>% `
+# ` %T&gt;% `
 
-Mesmo sendo `%>%` o operador de tubulação (principal) do pacote magrittr, existem alguns outros operadores que fazem parte do mesmo pacote:
+Mesmo sendo `%&gt;%` o operador de tubulação (principal) do pacote magrittr, existem alguns outros operadores que fazem parte do mesmo pacote:
 
 Ao trabalhar com tubos mais complexos, às vezes é útil chamar uma função por seus efeitos colaterais. Talvez você queira imprimir o objeto atual, plotá-lo ou salvá-lo em disco. Muitas vezes, essas funções não retornam nada, efetivamente encerrando o pipe.
 
-Para contornar esse problema, usar-se o tubo *"tee"* `%T>%` funciona como `%>%` exceto que retorna o lado esquerdo em vez do lado direito. É chamado de *“tee”* porque é como um tubo em forma de T literal.
+Para contornar esse problema, usar-se o tubo *"tee"* `%T&gt;%` funciona como `%&gt;%` exceto que retorna o lado esquerdo em vez do lado direito. É chamado de *“tee”* porque é como um tubo em forma de T literal.
 
 ---
 
-```{r echo = TRUE}
-rnorm(100) %>%
-  matrix(ncol = 2) %>%
-  plot() %>%
+
+```r
+rnorm(100) %&gt;%
+  matrix(ncol = 2) %&gt;%
+  plot() %&gt;%
   str()
+```
+
+&lt;img src="intro-dplyr_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+```
+##  NULL
 ```
 
 ---
 
-```{r echo = TRUE}
-rnorm(100) %>%
-  matrix(ncol = 2) %T>%
-  plot() %>%
+
+```r
+rnorm(100) %&gt;%
+  matrix(ncol = 2) %T&gt;%
+  plot() %&gt;%
   str()
+```
+
+&lt;img src="intro-dplyr_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+
+```
+##  num [1:50, 1:2] 0.698 1.612 0.498 -0.372 -0.263 ...
 ```
 
 ---
@@ -314,9 +321,7 @@ class: inverse, middle, center
 
 # `tidyr`
 
-```{r figure0, echo=FALSE, fig.align='center', out.width="25%"}
-knitr::include_graphics("imagens/tidyr.png")
-```
+&lt;img src="imagens/tidyr.png" width="25%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -332,16 +337,15 @@ O objetivo do tidyr é ajudá-lo a criar dados organizados.
 
 Os dados que satisfazem essas regras são conhecidos como dados organizados
 
-```{r figure7, echo=FALSE, fig.align='center', out.width="95%"}
-knitr::include_graphics("imagens/tidy-1.png")
-```
+&lt;img src="imagens/tidy-1.png" width="95%" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ### `tidyr`
 
 Vamos instalar o pacote `EDAWR` e carregá-lo:
-```{r eval=FALSE, echo=TRUE}
+
+```r
 devtools::install_github("rstudio/EDAWR")
 library(EDAWR)
 ```
@@ -350,10 +354,44 @@ Quais desses quadros de dados são mais similares a dados organizados?
 
 ---
 
-```{r echo=TRUE}
+
+```r
 EDAWR::storms
+```
+
+```
+##     storm wind pressure       date
+## 1 Alberto  110     1007 2000-08-03
+## 2    Alex   45     1009 1998-07-27
+## 3 Allison   65     1005 1995-06-03
+## 4     Ana   40     1013 1997-06-30
+## 5  Arlene   50     1010 1999-06-11
+## 6  Arthur   45     1010 1996-06-17
+```
+
+```r
 EDAWR::cases
+```
+
+```
+##   country  2011  2012  2013
+## 1      FR  7000  6900  7000
+## 2      DE  5800  6000  6200
+## 3      US 15000 14000 13000
+```
+
+```r
 EDAWR::pollution
+```
+
+```
+##       city  size amount
+## 1 New York large     23
+## 2 New York small     14
+## 3   London large     22
+## 4   London small     16
+## 5  Beijing large    121
+## 6  Beijing small     56
 ```
 
 ---
@@ -374,9 +412,7 @@ class: inverse, middle, center
 
 # `dplyr`
 
-```{r figure6, echo=FALSE, fig.align='center', out.width='25%'}
-knitr::include_graphics("imagens/dplyr.png")
-```
+&lt;img src="imagens/dplyr.png" width="25%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -427,33 +463,27 @@ O pacote pode ser instalado a partir do CRAN ou do GitHub usando o pacote `devto
 
 Para instalar a partir do CRAN, bastar executar:
 
-````{r script4.1, eval=FALSE}
-install.packages("dplyr")
-```
+
 
 Para instalar a partir do GitHub, execute:
 
-```{r script4.2, eval=FALSE}
-library(devtools) #carregar o pacote 'devtools' antes.
-devtools::install_github("hadley/dplyr")
-```
+
 
 Após a instalação do pacote, carregá-lo com a função `library()`:
 
-```{r script4.3}
-library(dplyr)
-```
+
 
 Ao carregar o pacote você pode receber alguns avisos, porque há funções no `dplyr`que têm o mesmo nome que as funções em outros pacotes. Por enquanto pode ignorar os avisos.
 
 ---
 
-Para melhor apresentar as funcionalidades da função, usaremos um conjunto de dados diários sobre poluição do ar e taxa de mortalidade da [cidade de Chicago](http://www.biostat.jhsph.edu/~rpeng/leanpub/rprog/chicago_data.zip), nos EUA. Este banco de dados encontra no seguinte endereço:  <http://www.biostat.jhsph.edu/~rpeng/leanpub/rprog/chicago_data.zip> e está em um arquivo zipado.
+Para melhor apresentar as funcionalidades da função, usaremos um conjunto de dados diários sobre poluição do ar e taxa de mortalidade da [cidade de Chicago](http://www.biostat.jhsph.edu/~rpeng/leanpub/rprog/chicago_data.zip), nos EUA. Este banco de dados encontra no seguinte endereço:  &lt;http://www.biostat.jhsph.edu/~rpeng/leanpub/rprog/chicago_data.zip&gt; e está em um arquivo zipado.
 
 Você pode carregar os dados no R usando a função `readRDS()`:
 
-```{r script4.4, echo=TRUE}
-chicago <- readRDS("data/chicago.rds")
+
+```r
+chicago &lt;- readRDS("data/chicago.rds")
 ```
 
 ---
@@ -468,7 +498,7 @@ Descrição do banco: tem 8 colunas e 6940 linhas. Cada linha refere-se a um dia
     
   - date: tempo em dias.
   
-  - pm25tmean2: partículas médias < 2,5mg por m cúbico (mais perigoso).
+  - pm25tmean2: partículas médias &lt; 2,5mg por m cúbico (mais perigoso).
     
   - pm10tmean2:  partículas médias em 2,5^-10 por m cúbico.
   
@@ -486,10 +516,28 @@ Muitas vezes teremos um data.frames contendo um grande número de dados. Com iss
 
 Suponhamos que desejássemos pegar as 3 primeiras colunas. Há algumas maneiras de fazer isto. Poderíamos, por exemplo, usar o índices númericos. Mas também podemos usar os nomes diretamente. 
 
-```{r script4.6, echo = TRUE}
+
+```r
 names(chicago[1:3]) 
-subset1 <- select(chicago, city:dptp)
+```
+
+```
+## [1] "city" "tmpd" "dptp"
+```
+
+```r
+subset1 &lt;- select(chicago, city:dptp)
 head(subset1)
+```
+
+```
+##   city tmpd   dptp
+## 1 chic 31.5 31.500
+## 2 chic 33.0 29.875
+## 3 chic 33.0 27.375
+## 4 chic 29.0 28.625
+## 5 chic 32.0 28.875
+## 6 chic 40.0 35.125
 ```
 
 ---
@@ -500,9 +548,20 @@ Normalmente `:` não pode ser usado com nomes ou sequências de caracteres, mas 
 
 Pode **omitir** variáveis usando a função `select()` usando o sinal negativo.
 
-```{r script4.7, echo = TRUE}
-subset2 <- select(chicago, -(city:dptp))
+
+```r
+subset2 &lt;- select(chicago, -(city:dptp))
 head(subset2)
+```
+
+```
+##         date pm25tmean2 pm10tmean2 o3tmean2 no2tmean2
+## 1 1987-01-01         NA   34.00000 4.250000  19.98810
+## 2 1987-01-02         NA         NA 3.304348  23.19099
+## 3 1987-01-03         NA   34.16667 3.333333  23.81548
+## 4 1987-01-04         NA   47.00000 4.375000  30.43452
+## 5 1987-01-05         NA         NA 4.750000  30.33333
+## 6 1987-01-06         NA   48.00000 5.833333  25.77233
 ```
 
 ---
@@ -513,27 +572,49 @@ o que indica que estamos incluindo todas as variáveis, exceto as variáveis `ci
 
 O código equivalente ao anterior sem o uso do pacote seria:
 
-```{r echo = TRUE}
-i <- match("city", names(chicago))
-j <- match("dptp", names(chicago))
+
+```r
+i &lt;- match("city", names(chicago))
+j &lt;- match("dptp", names(chicago))
 head(chicago[, -(i:j)])
+```
+
+```
+##         date pm25tmean2 pm10tmean2 o3tmean2 no2tmean2
+## 1 1987-01-01         NA   34.00000 4.250000  19.98810
+## 2 1987-01-02         NA         NA 3.304348  23.19099
+## 3 1987-01-03         NA   34.16667 3.333333  23.81548
+## 4 1987-01-04         NA   47.00000 4.375000  30.43452
+## 5 1987-01-05         NA         NA 4.750000  30.33333
+## 6 1987-01-06         NA   48.00000 5.833333  25.77233
 ```
 
 ---
 
 A função de correspondência `mathc()` retorna um vetor das posições das (primeiras) correspondências de seu primeiro argumento no segundo. De acordo com a [Documentação R](https://stat.ethz.ch/R-manual/R-devel/library/base/html/match.html), a função é equivalente ao operador `%in%` que indica se uma correspondência foi localizada para o vetor1 no vetor2. O valor do resultado será VERDADEIRO ou FALSO, mas nunca NA. Portanto, o operador `%in%` pode ser útil em condições `if`. Por exemplos:
 
-```{r echo=TRUE}
-#função math().
-v1 <- c("a1","b2","c1","d2")
-v2 <- c("g1","x2","d2","e2","f1","a1","c2","b2","a2")
-x <- match(v1,v2)
-x
 
+```r
+#função math().
+v1 &lt;- c("a1","b2","c1","d2")
+v2 &lt;- c("g1","x2","d2","e2","f1","a1","c2","b2","a2")
+x &lt;- match(v1,v2)
+x
+```
+
+```
+## [1]  6  8 NA  3
+```
+
+```r
 #com o operador %in%.
-v1 <- c("a1","b2","c1","d2")
-v2 <- c("g1","x2","d2","e2","f1","a1","c2","b2","a2")
+v1 &lt;- c("a1","b2","c1","d2")
+v2 &lt;- c("g1","x2","d2","e2","f1","a1","c2","b2","a2")
 v1 %in% v2
+```
+
+```
+## [1]  TRUE  TRUE FALSE  TRUE
 ```
 
 ---
@@ -544,10 +625,21 @@ A função `select()` permite uma sintaxe especial que especifica nomes de vari�
 
 `starts_with("abc")`: corresponde aos nomes que começam com "abc";
 
-```{r echo = TRUE}
+
+```r
 #Queremos manter todas as variáveis que começam com um "d":
-subset3 <- select(chicago, starts_with("d"))
+subset3 &lt;- select(chicago, starts_with("d"))
 head(subset3)
+```
+
+```
+##     dptp       date
+## 1 31.500 1987-01-01
+## 2 29.875 1987-01-02
+## 3 27.375 1987-01-03
+## 4 28.625 1987-01-04
+## 5 28.875 1987-01-05
+## 6 35.125 1987-01-06
 ```
 
 ---
@@ -556,9 +648,20 @@ head(subset3)
 
 `ends_with("xyz")`: corresponde aos nomes que terminam com "xyz";
 
-```{r echo=TRUE}
-subset4 <- select(chicago, ends_with("2"))
+
+```r
+subset4 &lt;- select(chicago, ends_with("2"))
 head(subset4)
+```
+
+```
+##   pm25tmean2 pm10tmean2 o3tmean2 no2tmean2
+## 1         NA   34.00000 4.250000  19.98810
+## 2         NA         NA 3.304348  23.19099
+## 3         NA   34.16667 3.333333  23.81548
+## 4         NA   47.00000 4.375000  30.43452
+## 5         NA         NA 4.750000  30.33333
+## 6         NA   48.00000 5.833333  25.77233
 ```
 
 ---
@@ -567,9 +670,20 @@ head(subset4)
 
 `contains("ijk")`: corresponde aos nomes que contêm "ijk";
 
-```{r echo=TRUE}
-subset5 <- select(chicago, contains("tmean"))
+
+```r
+subset5 &lt;- select(chicago, contains("tmean"))
 head(subset5)
+```
+
+```
+##   pm25tmean2 pm10tmean2 o3tmean2 no2tmean2
+## 1         NA   34.00000 4.250000  19.98810
+## 2         NA         NA 3.304348  23.19099
+## 3         NA   34.16667 3.333333  23.81548
+## 4         NA   47.00000 4.375000  30.43452
+## 5         NA         NA 4.750000  30.33333
+## 6         NA   48.00000 5.833333  25.77233
 ```
 
 ---
@@ -578,9 +692,15 @@ head(subset5)
   
 `matches("(.)\\1")`: selecionar variáveis que correspondem a uma expressão regular. Esta corresponde a qualquer variável que contenha caracteres repetidos. Você aprenderá mais sobre expressões regulares no capítulo  [Strings](https://r4ds.had.co.nz/strings.html) do livro [R for data science](https://r4ds.had.co.nz/).
 
-```{r}
-subset6 <- select(chicago, matches(c(".m."), names(chicago)))
-head(subset6)
+
+```
+##   tmpd pm25tmean2 pm10tmean2 o3tmean2 no2tmean2
+## 1 31.5         NA   34.00000 4.250000  19.98810
+## 2 33.0         NA         NA 3.304348  23.19099
+## 3 33.0         NA   34.16667 3.333333  23.81548
+## 4 29.0         NA   47.00000 4.375000  30.43452
+## 5 32.0         NA         NA 4.750000  30.33333
+## 6 40.0         NA   48.00000 5.833333  25.77233
 ```
 
 ---
@@ -589,12 +709,48 @@ head(subset6)
   
 `num_range("x", 1:3)`: Corresponde x1, x2 e x3.
 
-```{r echo=TRUE}
+
+```r
 #Criando um objeto df que é um data frame
-df <- as.data.frame(matrix(runif(100), nrow = 10)) 
-df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
+df &lt;- as.data.frame(matrix(runif(100), nrow = 10)) 
+df &lt;- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 select(df, V4:V6)
+```
+
+```
+## # A tibble: 10 x 8
+##        V4    V7     V1    V9       V8    V5    V2     V6
+##     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1 0.0558 0.247 0.720  0.757 0.448    0.294 0.747 0.756 
+##  2 0.590  0.365 0.398  0.507 0.556    0.222 0.372 0.695 
+##  3 0.777  0.430 0.998  0.106 0.559    0.642 0.207 0.531 
+##  4 0.274  0.832 0.667  0.560 0.915    0.810 0.198 0.621 
+##  5 0.657  0.721 0.0629 0.170 0.698    0.182 0.818 0.681 
+##  6 0.847  0.964 0.0725 0.448 0.591    0.593 0.314 0.263 
+##  7 0.804  0.171 0.987  0.166 0.886    0.947 0.218 0.880 
+##  8 0.551  0.133 0.116  0.475 0.889    0.228 0.862 0.605 
+##  9 0.699  0.638 0.654  0.999 0.000241 0.773 0.989 0.0632
+## 10 0.850  0.448 0.490  0.280 0.205    0.715 0.281 0.981
+```
+
+```r
 select(df, num_range("V", 4:6))
+```
+
+```
+## # A tibble: 10 x 3
+##        V4    V5     V6
+##     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1 0.0558 0.294 0.756 
+##  2 0.590  0.222 0.695 
+##  3 0.777  0.642 0.531 
+##  4 0.274  0.810 0.621 
+##  5 0.657  0.182 0.681 
+##  6 0.847  0.593 0.263 
+##  7 0.804  0.947 0.880 
+##  8 0.551  0.228 0.605 
+##  9 0.699  0.773 0.0632
+## 10 0.850  0.715 0.981
 ```
 
 ---
@@ -605,9 +761,20 @@ Você também pode usar expressões regulares mais gerais, se necessário. Veja 
 
 Outra opção é usar `select()` em conjunto com o `everything()` auxiliar. Isso é útil se você tiver um punhado de variáveis que deseja mover para o início do quadro de dados.
 
-```{r echo=TRUE}
-subset7 <- select(chicago, o3tmean2, no2tmean2, everything())
+
+```r
+subset7 &lt;- select(chicago, o3tmean2, no2tmean2, everything())
 head(subset7)
+```
+
+```
+##   o3tmean2 no2tmean2 city tmpd   dptp       date pm25tmean2 pm10tmean2
+## 1 4.250000  19.98810 chic 31.5 31.500 1987-01-01         NA   34.00000
+## 2 3.304348  23.19099 chic 33.0 29.875 1987-01-02         NA         NA
+## 3 3.333333  23.81548 chic 33.0 27.375 1987-01-03         NA   34.16667
+## 4 4.375000  30.43452 chic 29.0 28.625 1987-01-04         NA   47.00000
+## 5 4.750000  30.33333 chic 32.0 28.875 1987-01-05         NA         NA
+## 6 5.833333  25.77233 chic 40.0 35.125 1987-01-06         NA   48.00000
 ```
 
 ---
@@ -618,9 +785,17 @@ Para renomear variáveis em uma data.frames em R não é tão prático. E a fun�
 
 Os nomes das cinco primeiras variáveis do data frame chicago.
 
-```{r echo=TRUE}
+
+```r
 #Imprimir às 3 primeiras linhas da primeira a quinta coluna.
 head(chicago[, 1:5], 3)
+```
+
+```
+##   city tmpd   dptp       date pm25tmean2
+## 1 chic 31.5 31.500 1987-01-01         NA
+## 2 chic 33.0 29.875 1987-01-02         NA
+## 3 chic 33.0 27.375 1987-01-03         NA
 ```
 
 ---
@@ -629,9 +804,17 @@ head(chicago[, 1:5], 3)
 
 A coluna `dptp` deve representar a temperatura do ponto de orvalho e a coluna `pm25tmean2` fornece os dados do PM2.5. No entanto, esses nomes são bastante obscuros ou estranhos e provavelmente serão renomeados para algo mais sensato.
 
-```{r echo=TRUE}
-chicago <- rename(chicago, Temp_Orv = dptp, pm25 = pm25tmean2)
+
+```r
+chicago &lt;- rename(chicago, Temp_Orv = dptp, pm25 = pm25tmean2)
 head(chicago[, 1:5], 3)
+```
+
+```
+##   city tmpd Temp_Orv       date pm25
+## 1 chic 31.5   31.500 1987-01-01   NA
+## 2 chic 33.0   29.875 1987-01-02   NA
+## 3 chic 33.0   27.375 1987-01-03   NA
 ```
 
 A sintaxe dentro da `rename() ` função é ter o novo nome no lado esquerdo do `=` sinal e o nome antigo no lado direito.
@@ -650,9 +833,27 @@ Por exemplo, com os dados de poluição do ar, subtraindo a média dos dados. De
 
 Aqui, criamos uma variável `pm25difmean` que subtrai a média da variável `pm25`.
 
-```{r echo = TRUE}
-chicago <- mutate(chicago, pm25difmean = pm25 - mean(pm25, na.rm = TRUE))
+
+```r
+chicago &lt;- mutate(chicago, pm25difmean = pm25 - mean(pm25, na.rm = TRUE))
 head(chicago)
+```
+
+```
+##   city tmpd Temp_Orv       date pm25 pm10tmean2 o3tmean2 no2tmean2
+## 1 chic 31.5   31.500 1987-01-01   NA   34.00000 4.250000  19.98810
+## 2 chic 33.0   29.875 1987-01-02   NA         NA 3.304348  23.19099
+## 3 chic 33.0   27.375 1987-01-03   NA   34.16667 3.333333  23.81548
+## 4 chic 29.0   28.625 1987-01-04   NA   47.00000 4.375000  30.43452
+## 5 chic 32.0   28.875 1987-01-05   NA         NA 4.750000  30.33333
+## 6 chic 40.0   35.125 1987-01-06   NA   48.00000 5.833333  25.77233
+##   pm25difmean
+## 1          NA
+## 2          NA
+## 3          NA
+## 4          NA
+## 5          NA
+## 6          NA
 ```
 
 ---
@@ -663,10 +864,21 @@ Há também a função relacionada `transmute()`, que faz a mesma coisa que `mut
 
 Aqui, desprezamos as variáveis PM10 e ozônio (O3).
 
-```{r echo = TRUE}
+
+```r
 head(transmute(chicago, 
                pm10difmean = pm10tmean2 - mean(pm10tmean2, na.rm = TRUE),
                O3difmean = o3tmean2 - mean(o3tmean2, na.rm = TRUE)))
+```
+
+```
+##   pm10difmean O3difmean
+## 1   0.1047939 -15.18551
+## 2          NA -16.13117
+## 3   0.2714605 -16.10218
+## 4  13.1047939 -15.06051
+## 5          NA -14.68551
+## 6  14.1047939 -13.60218
 ```
 
 Observe que existem apenas duas colunas no quadro de dados transformados.
@@ -681,13 +893,37 @@ Há inúmeras funções que pode ser feita, a propriedade é que a função deva
 # Bibliográfias
 
 
-```{r, results='asis'}
-print(bibs[key = c("xie2015", "knitr-book", "e-book",
-                  "tidy-data", "bookdown1")], 
-      .opts = list(check.entries = FALSE, 
-                   style = "html", 
-                   bib.style = "authoryear"))
-```
+&lt;p&gt;&lt;cite&gt;Garrett Grolemund, H. W.
+(2016).
+&lt;em&gt;R for Data Science&lt;/em&gt;.
+First Edition.
+Printed in Canada: Published by OReilly Media.
+URL: &lt;a href="http://oreilly.com/safari"&gt;http://oreilly.com/safari&lt;/a&gt;.&lt;/cite&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;cite&gt;Peng, R. D.
+(2016).
+&lt;em&gt;Exploratory Data Analysis with R&lt;/em&gt;.
+This is a Leanpub book.
+URL: &lt;a href="https://leanpub.com/exdata"&gt;https://leanpub.com/exdata&lt;/a&gt;.&lt;/cite&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;cite&gt;&amp;mdash;
+(2019).
+&lt;em&gt;R Programming for Data Science&lt;/em&gt;.
+URL: &lt;a href="https://bookdown.org/rdpeng/rprogdatascience/"&gt;https://bookdown.org/rdpeng/rprogdatascience/&lt;/a&gt;.&lt;/cite&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;cite&gt;Wickham, H.
+(2014).
+&amp;ldquo;Tidy data&amp;rdquo;.
+In: &lt;em&gt;The Journal of Statistical Software&lt;/em&gt; 59 (10).
+URL: &lt;a href="http://www.jstatsoft.org/v59/i10/"&gt;http://www.jstatsoft.org/v59/i10/&lt;/a&gt;.&lt;/cite&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;cite&gt;Xie, Y.
+(2015).
+&lt;em&gt;Dynamic Documents with R and knitr&lt;/em&gt;.
+2nd.
+ISBN 978-1498716963.
+Boca Raton, Florida: Chapman and Hall/CRC.
+URL: &lt;a href="http://yihui.name/knitr/"&gt;http://yihui.name/knitr/&lt;/a&gt;.&lt;/cite&gt;&lt;/p&gt;
 
 ---
 class: center, middle, inverse
@@ -696,8 +932,116 @@ class: center, middle, inverse
 # Continua...
 
 
-<img src= "https://s3.amazonaws.com/kleebtronics-media/img/icons/github-white.png", width="50", height="50",  align="middle"> 
+&lt;img src= "https://s3.amazonaws.com/kleebtronics-media/img/icons/github-white.png", width="50", height="50",  align="middle"&gt; 
 
-<b>
+&lt;b&gt;
 
 [@Doug7Vinicius](https://github.com/Doug7Vinicius/introduction-dplyr)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
